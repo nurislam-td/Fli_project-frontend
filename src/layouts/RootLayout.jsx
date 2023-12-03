@@ -10,7 +10,7 @@ export default function RootLayout() {
         as="aside"
         p="5px"
         colSpan={{ base: 6, md: 2, xl: 1 }}
-        bg="purple.400"
+        bg="blue.500"
         minHeight={{ lg: "100vh" }}
       >
         <Sidebar />
