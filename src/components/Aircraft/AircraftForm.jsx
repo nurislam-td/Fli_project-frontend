@@ -10,31 +10,39 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-const AirportForm = ({ handleSubmit, defaultValue }) => {
+const AircraftForm = ({ handleSubmit, defaultValue }) => {
   console.log("forma ", defaultValue);
   const formik = useFormik({
     initialValues: defaultValue || {
-      airport_id: null,
-      airport_code: "",
-      airport_name: "",
-      city: "",
-      country: "",
-      latitude: 0,
-      longitude: 0,
+      aircraft_id: null,
+      manufacturer: "",
+      model: "",
+      registration_number: "",
+      year_of_manufacturer: null,
+      capacity: null,
+      cnt_of_seats: null,
+      type: "",
+      fuel_capacity: null,
+      engine_type: "",
+      current_location: null,
     },
     validationSchema: Yup.object({
-      airport_code: Yup.string()
-        .required("airport code required")
-        .max(3, "Airport code too long"),
-      latitude: Yup.number(),
-      longitude: Yup.number(),
+      registration_number: Yup.string()
+        .required("Registration number required")
+        .max(20, "Registration number too long"),
+      year_of_manufacturer: Yup.number(),
+      capacity: Yup.number(),
+      fuel_capacity: Yup.number(),
+      cnt_of_seats: Yup.number(),
     }),
     onSubmit: (values) => {
       console.log(values);
       values = {
         ...values,
-        latitude: parseFloat(values.latitude),
-        longitude: parseFloat(values.longitude),
+        year_of_manufacturer: parseFloat(values.year_of_manufacturer),
+        capacity: parseFloat(values.capacity),
+        fuel_capacity: parseFloat(values.fuel_capacity),
+        cnt_of_seats: parseFloat(values.cnt_of_seats),
       };
       handleSubmit(values);
       console.log(values);
@@ -44,25 +52,25 @@ const AirportForm = ({ handleSubmit, defaultValue }) => {
   return (
     <Box p={4} display="flex" justifyContent="left" gap="50px">
       <form onSubmit={formik.handleSubmit}>
-        <FormControl mb={4} isInvalid={formik.errors.airport_code}>
-          <FormLabel>Airport Code</FormLabel>
+        <FormControl mb={4} isInvalid={formik.errors.manufacturer}>
+          <FormLabel>manufacturer</FormLabel>
           <Input
             type="text"
-            placeholder="AXC"
-            name="airport_code"
-            value={formik.values.airport_code}
+            placeholder="manufacturer"
+            name="manufacturer"
+            value={formik.values.manufacturer}
             onChange={formik.handleChange}
           />
-          <FormErrorMessage>{formik.errors.airport_code}</FormErrorMessage>
+          <FormErrorMessage>{formik.errors.manufacturer}</FormErrorMessage>
         </FormControl>
 
         <FormControl mb={4}>
-          <FormLabel>Airport Name</FormLabel>
+          <FormLabel>model</FormLabel>
           <Input
             type="text"
-            placeholder="enter name..."
-            name="airport_name"
-            value={formik.values.airport_name}
+            placeholder="enter model..."
+            name="model"
+            value={formik.values.model}
             onChange={formik.handleChange}
           />
         </FormControl>
@@ -121,4 +129,4 @@ const AirportForm = ({ handleSubmit, defaultValue }) => {
   );
 };
 
-export { AirportForm };
+export { AircraftForm };
