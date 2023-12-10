@@ -1,131 +1,134 @@
 import React from "react";
-import {
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  FormErrorMessage,
-} from "@chakra-ui/react";
-import { useFormik } from "formik";
+import { Button, VStack } from "@chakra-ui/react";
+import { Formik } from "formik";
 import * as Yup from "yup";
+import { TextField } from "../TextField";
 
 const AircraftForm = ({ handleSubmit, defaultValue }) => {
   console.log("forma ", defaultValue);
-  const formik = useFormik({
-    initialValues: defaultValue || {
-      aircraft_id: null,
-      manufacturer: "",
-      model: "",
-      registration_number: "",
-      year_of_manufacturer: null,
-      capacity: null,
-      cnt_of_seats: null,
-      type: "",
-      fuel_capacity: null,
-      engine_type: "",
-      current_location: null,
-    },
-    validationSchema: Yup.object({
-      registration_number: Yup.string()
-        .required("Registration number required")
-        .max(20, "Registration number too long"),
-      year_of_manufacturer: Yup.number(),
-      capacity: Yup.number(),
-      fuel_capacity: Yup.number(),
-      cnt_of_seats: Yup.number(),
-    }),
-    onSubmit: (values) => {
-      console.log(values);
-      values = {
-        ...values,
-        year_of_manufacturer: parseFloat(values.year_of_manufacturer),
-        capacity: parseFloat(values.capacity),
-        fuel_capacity: parseFloat(values.fuel_capacity),
-        cnt_of_seats: parseFloat(values.cnt_of_seats),
-      };
-      handleSubmit(values);
-      console.log(values);
-    },
-  });
 
   return (
-    <Box p={4} display="flex" justifyContent="left" gap="50px">
-      <form onSubmit={formik.handleSubmit}>
-        <FormControl mb={4} isInvalid={formik.errors.manufacturer}>
-          <FormLabel>manufacturer</FormLabel>
-          <Input
-            type="text"
-            placeholder="manufacturer"
+    <Formik
+      initialValues={
+        defaultValue || {
+          aircraft_id: null,
+          manufacturer: "",
+          model: "",
+          registration_number: "",
+          year_of_manufacturer: null,
+          capacity: null,
+          cnt_of_seats: null,
+          type: "",
+          fuel_capacity: null,
+          engine_type: "",
+          current_location: null,
+        }
+      }
+      validationSchema={Yup.object({
+        registration_number: Yup.string()
+          .required("registration number code required")
+          .max(20, "registration number code too long"),
+        year_of_manufacturer: Yup.number(),
+        capacity: Yup.number(),
+        cnt_of_seats: Yup.number(),
+        fuel_capacity: Yup.number(),
+        current_location: Yup.number(),
+      })}
+      onSubmit={(values, actions) => {
+        console.log(values);
+        values = {
+          ...values,
+          year_of_manufacturer: parseFloat(values.year_of_manufacturer),
+          capacity: parseFloat(values.capacity),
+          cnt_of_seats: parseFloat(values.cnt_of_seats),
+          fuel_capacity: parseFloat(values.fuel_capacity),
+          current_location: parseFloat(values.current_location),
+        };
+        handleSubmit(values);
+        console.log(values);
+        actions.resetForm;
+      }}
+    >
+      {(formik) => (
+        <VStack
+          as="form"
+          justifyContent="center"
+          spacing="10px"
+          onSubmit={formik.handleSubmit}
+        >
+          <TextField
+            label={"Manufacturer"}
             name="manufacturer"
-            value={formik.values.manufacturer}
-            onChange={formik.handleChange}
+            placeholder="enter manufacturer ..."
+            type="manufacturer"
           />
-          <FormErrorMessage>{formik.errors.manufacturer}</FormErrorMessage>
-        </FormControl>
-
-        <FormControl mb={4}>
-          <FormLabel>model</FormLabel>
-          <Input
-            type="text"
-            placeholder="enter model..."
+          <TextField
+            label={"Model"}
             name="model"
-            value={formik.values.model}
-            onChange={formik.handleChange}
+            placeholder="enter model ..."
+            type="model"
           />
-        </FormControl>
-
-        <FormControl mb={4}>
-          <FormLabel>City</FormLabel>
-          <Input
-            type="text"
-            placeholder="Astana"
-            name="city"
-            value={formik.values.city}
-            onChange={formik.handleChange}
+          <TextField
+            label={"Registration number"}
+            name="registration_number"
+            placeholder="enter registration number"
+            type="registration_number"
           />
-        </FormControl>
 
-        <FormControl mb={4}>
-          <FormLabel>Country</FormLabel>
-          <Input
-            type="text"
-            placeholder="Kazakhstan"
-            name="country"
-            value={formik.values.country}
-            onChange={formik.handleChange}
+          <TextField
+            label={"Year of manufacturer"}
+            name="year_of_manufacturer"
+            placeholder="enter year"
+            type="year_of_manufacturer"
           />
-        </FormControl>
 
-        <FormControl mb={4} isInvalid={formik.errors.latitude}>
-          <FormLabel>Latitude</FormLabel>
-          <Input
-            type="text"
-            placeholder="59.9564"
-            name="latitude"
-            value={formik.values.latitude}
-            onChange={formik.handleChange}
+          <TextField
+            label={"Capacity"}
+            name="capacity"
+            placeholder="enter number"
+            type="capacity"
           />
-          <FormErrorMessage>{formik.errors.latitude}</FormErrorMessage>
-        </FormControl>
 
-        <FormControl mb={4} isInvalid={formik.errors.longitude}>
-          <FormLabel>Longitude</FormLabel>
-          <Input
-            type="text"
-            placeholder="64.1557"
-            name="longitude"
-            value={formik.values.longitude}
-            onChange={formik.handleChange}
+          <TextField
+            label={"Count of seats"}
+            name="cnt_of_seats"
+            placeholder="enter count"
+            type="cnt_of_seats"
           />
-          <FormErrorMessage>{formik.errors.longitude}</FormErrorMessage>
-        </FormControl>
 
-        <Button type="submit" colorScheme="blue">
-          Submit
-        </Button>
-      </form>
-    </Box>
+          <TextField
+            label={"Type"}
+            name="type"
+            placeholder="enter type"
+            type="type"
+          />
+
+          <TextField
+            label={"Fuel capacity"}
+            name="fuel_capacity"
+            placeholder="enter fuel capacity"
+            type="fuel_capacity"
+          />
+
+          <TextField
+            label={"Engine type"}
+            name="engine_type"
+            placeholder="enter engine type"
+            type="engine_type"
+          />
+          <TextField
+            label={"Current location"}
+            name="current_location"
+            placeholder="enter current location"
+            type="current_location"
+          />
+
+          <Button type="submit" colorScheme="blue">
+            Submit
+          </Button>
+        </VStack>
+      )}
+    </Formik>
   );
 };
 

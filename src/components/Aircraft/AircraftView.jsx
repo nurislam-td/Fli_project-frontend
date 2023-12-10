@@ -8,6 +8,8 @@ import {
   patchAircraft,
   addAircraft,
 } from "../../_services/Aircraft";
+import AircraftTable from "./AircraftTable";
+import { AircraftModal } from "./AircraftModal";
 
 export const AircraftView = () => {
   const [aircrafts, setAircrafts] = useState([]);
@@ -20,10 +22,10 @@ export const AircraftView = () => {
     console.log(result);
   };
 
-  const handleSubmit = async (airport) => {
-    airport.airport_id === null
-      ? await addAircraft(airport)
-      : await patchAircraft(airport.airport_id, airport);
+  const handleSubmit = async (aircraft) => {
+    aircraft.aircraft_id === null
+      ? await addAircraft(aircraft)
+      : await patchAircraft(aircraft.aircraft_id, aircraft);
     handleUpdateAircraft();
     onClose();
     setEditRow(null);
